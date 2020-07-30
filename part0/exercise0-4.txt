@@ -1,0 +1,58 @@
+title exercise 0.4 - BBS - 2020-07-30
+
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/notes
+note over server:
+Server fetches static-equivalent html. 
+(Served via node const, but is a static serve)
+Execution enters: https://github.com/mluukkai/example_app/blob/master/index.js#L98
+Returns const text.
+end note over 
+server->browser: index.js returns static variable notes_page -> notes [header: 200]
+note over browser:
+Both requests sent at 410 ms or so.
+end note over
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/main.css
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/main.js
+server->browser: Express returns static file public/main.css
+server->browser: Express returns static file public/main.js
+note over browser:
+Document loads, dom renders, main.js parsed. 
+Download of main.css completes in 349 ms. Blocks completion of document load.
+end note over
+browser->server: HTTPS Get https://fullstack-exampleapp.herokuapp.com/data.json from line 22 of index.js
+note over server:
+https://github.com/mluukkai/example_app/blob/master/index.js#L106 executes
+returns const notes as function of initial static define and then whatever notes
+were added since last executable restart
+
+Content-Type: application/json; charset=utf-8
+
+end note over
+server->browser: index.js serves const notes array as json -> rendered locally as 'file' data.json [200]
+note over browser:
+State 4, Status 200, line 4 of main.js passed
+JSON back into JS data structure, dump to console, 
+render via AJAXY dom injection to browser
+end note over
+
+note over browser:
+Page presented to user at 1100ms :(
+User types "exercise0-4" 
+Presses submit
+end note over
+browser->server:HTTPS POST ... /new_note [note='exercise0-4', submit='Save']
+server->browser: index.js returns static variable notes_page -> notes [header: 200]
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/main.css
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/main.js
+server->browser: Express returns static file public/main.css
+server->browser: Express returns static file public/main.js
+browser->server: HTTPS Get https://fullstack-exampleapp.herokuapp.com/data.json from line 22 of index.js
+note over server:
+New notes array has 'exercise0-4' as element 24
+end note over
+server->browser: index.js serves const notes array as json -> rendered locally as 'file' data.json [200]
+note over browser:
+State 4, Status 200, line 4 of main.js passed
+JSON back into JS data structure, dump to console, 
+render via AJAXY dom injection to browser
+end note over

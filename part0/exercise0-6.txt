@@ -1,0 +1,47 @@
+title exercise 0.6 - BBS - 2020-07-30
+
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/spa
+note over server:
+Server fetches static-equivalent html. 
+(Served via node const, but is a static serve)
+Execution enters: https://github.com/mluukkai/example_app/blob/master/index.js#L102
+end note over 
+server->browser: index.js returns static variable notes_spa -> spa [200]
+note over browser:
+Both requests sent at 1100 ms or so. (Setting up connection and SSL took 650ms yeesh)
+end note over
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/main.css
+browser->server: HTTPS GET https://fullstack-exampleapp.herokuapp.com/spa.js
+server->browser: Express returns static file public/main.css
+server->browser: Express returns static file public/spa.js
+note over browser:
+Document loads, dom renders, spa.js parsed. main.css parsed
+end note over
+browser->server: HTTPS Get https://fullstack-exampleapp.herokuapp.com/data.json from line 30 of spa.js
+note over server:
+https://github.com/mluukkai/example_app/blob/master/index.js#L106 executes
+returns const notes as function of initial static define and then whatever notes
+were added since last executable restart
+
+Content-Type: application/json; charset=utf-8
+
+This is same execution path as exercise 0.4
+end note over
+server->browser: index.js serves const notes array as json -> rendered locally as 'file' data.json [200]
+note over browser:
+State 4, Status 200, line 24 of spa.js passed
+JSON back into JS data structure, dump to console, 
+write to notes global
+call redrawNotes 
+AJAX dom injection
+
+end note over
+note over browser:
+user enters exercise0-6 into text field, clicks submit
+Event handler line 48 catches submit, prevents Default page load 
+pushes "exercise0-6" to local notes array
+clears text box
+calls redraw notes
+end note over
+browser->server: HTTPS POST ... /new_note_spa [json: {"content": "exercise0-6", "date": JS date object}]
+server->browser: index.js serves json -> 'new_note_spa' {"message":"note created"} [200]
