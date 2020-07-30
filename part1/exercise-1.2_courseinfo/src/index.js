@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+// 3 minutes
 
 // Unfortunately, the entire application is in the same component. Refactor the code so that it consists of three new components: Header, Content, and Total. All data still resides in the App component, which passes the necessary data to each component using props. Header takes care of rendering the name of the course, Content renders the parts and their number of exercises and Total renders the total number of exercises.
 
@@ -16,18 +17,22 @@ const Header = (props) => (
 //h1 is a block element, so it can live happily there.
 
 //this really should have a content-line or be called 3 times. But going to follow the spec.
+// Hah, anticipated step 2
+
+const Part = (props) => (
+	<div>
+		<p>{props.part} {props.exercise}</p>
+	</div>
+)
 
 const Content = (props) => (
 	<div>
-		<p>
-			{props.part1} {props.exercises1}
-		</p>
-		<p> 
-			{props.part2} {props.exercises2}
-		</p>
-		<p>
-			{props.part3} {props.exercises3}
-		</p>
+		<Part part={props.part1}
+		      exercise={props.exercises1}/>
+		<Part part={props.part2}
+		      exercise={props.exercises2}/>
+		<Part part={props.part3}
+		      exercise={props.exercises3}/>		      
 	</div>
 ) //p are inline, thus needing their own wrapping. Could use empty tags, but it mucks up subl3's syntax formatting and I don't want to debug it right now.
 
