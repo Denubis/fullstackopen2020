@@ -26,7 +26,8 @@ import ReactDOM from 'react-dom';
 
 const Header1 = ({header}) => <h1>{header}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
-const DisplayStat = ({stat, text}) => <div>{text} {stat}</div>
+// 1.10, the rewards of doing it right the first time.
+const Statistic = ({value, text}) => <div>{text} {value}</div>
 
 // 1.8: unicafe step3
 // Refactor your application so that displaying the statistics is extracted
@@ -46,12 +47,12 @@ const Statistics = ({good, neutral, bad}) => {
 	return (
 		<div>
 		<Header1 header="Statistics"/>
-		<DisplayStat stat={good} text="good"/>
-		<DisplayStat stat={neutral} text="neutral"/>
-		<DisplayStat stat={bad} text="bad"/>
-		<DisplayStat stat={total} text="all"/>
-		<DisplayStat stat={(good+bad*-1)/(total)} text="average"/>
-		<DisplayStat stat={(good/(total))+" %"} text="positive"/>
+		<Statistic value={good} text="good"/>
+		<Statistic value={neutral} text="neutral"/>
+		<Statistic value={bad} text="bad"/>
+		<Statistic value={total} text="all"/>
+		<Statistic value={(good+bad*-1)/(total)} text="average"/>
+		<Statistic value={(good/(total))+" %"} text="positive"/>
 		</div>
     )
 }
