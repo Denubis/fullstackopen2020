@@ -18,6 +18,12 @@ import ReactDOM from 'react-dom';
 //Note that your application needs to work only during a single browser session. Once you refresh the page, the collected feedback is allowed to disappear.
 //You can implement the application in a single index.js file. You can use the code below as a starting point for your application.
 
+
+// 1.7: unicafe step2
+// Expand your application so that it shows more statistics about the gathered
+// feedback: the total number of collected feedback, the average score (good: 1,
+// neutral: 0, bad: -1) and the percentage of positive feedback.
+
 const Header1 = ({header}) => <h1>{header}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 const DisplayStat = ({stat, text}) => <div>{text} {stat}</div>
@@ -28,7 +34,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
+  
 
   const incrementGood = () => setGood(good + 1)
   const incrementNeutral = () => setNeutral(neutral + 1)
@@ -45,6 +51,11 @@ const App = () => {
       <DisplayStat stat={good} text="good"/>
       <DisplayStat stat={neutral} text="neutral"/>
       <DisplayStat stat={bad} text="bad"/>
+      <DisplayStat stat={good+neutral+bad} text="all"/>
+      <DisplayStat stat={(good+bad*-1)/(good+neutral+bad)} text="average"/>
+      <DisplayStat stat={(good/(good+neutral+bad))+" %"} text="positive"/>
+
+
     </div>
   )
 }
