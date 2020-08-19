@@ -1,0 +1,11 @@
+migration of computers
+
+```
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+* `npm install` to deploy local node scripts from gitignore (do not npm upgrade, as npx is very old)
+* `npm start` to run.
+
+
