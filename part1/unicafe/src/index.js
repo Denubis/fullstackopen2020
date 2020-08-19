@@ -28,6 +28,29 @@ const Header1 = ({header}) => <h1>{header}</h1>
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 const DisplayStat = ({stat, text}) => <div>{text} {stat}</div>
 
+// 1.8: unicafe step3
+// Refactor your application so that displaying the statistics is extracted
+// into its own Statistics component. The state of the application should
+// remain in the App root component.
+
+const Statistics = ({good, neutral, bad}) => {
+    const total = (good+neutral+bad)
+
+	return (
+		<div>
+		<Header1 header="Statistics"/>
+		<DisplayStat stat={good} text="good"/>
+		<DisplayStat stat={neutral} text="neutral"/>
+		<DisplayStat stat={bad} text="bad"/>
+		<DisplayStat stat={total} text="all"/>
+		<DisplayStat stat={(good+bad*-1)/(total)} text="average"/>
+		<DisplayStat stat={(good/(total))+" %"} text="positive"/>
+		</div>
+    )
+}
+
+
+
 const App = () => {
   // save clicks of each button to own state
   // make sure this is in the thingo declaration
@@ -40,7 +63,6 @@ const App = () => {
   const incrementNeutral = () => setNeutral(neutral + 1)
   const incrementBad = () => setBad(bad + 1)
 
-  const total = (good+neutral+bad)
 
   return (
     <div>
@@ -48,13 +70,8 @@ const App = () => {
       <Button handleClick={incrementGood} text="good"/>
       <Button handleClick={incrementNeutral} text="neutral"/>
       <Button handleClick={incrementBad} text="bad"/>
-      <Header1 header="Statistics"/>
-      <DisplayStat stat={good} text="good"/>
-      <DisplayStat stat={neutral} text="neutral"/>
-      <DisplayStat stat={bad} text="bad"/>
-      <DisplayStat stat={total} text="all"/>
-      <DisplayStat stat={(good+bad*-1)/(total)} text="average"/>
-      <DisplayStat stat={(good/(total))+" %"} text="positive"/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
+      
 
 
     </div>
