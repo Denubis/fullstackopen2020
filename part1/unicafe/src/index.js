@@ -34,7 +34,14 @@ const DisplayStat = ({stat, text}) => <div>{text} {stat}</div>
 // remain in the App root component.
 
 const Statistics = ({good, neutral, bad}) => {
+
+	// 	1.9: unicafe step4
+	// Change your application to display statistics only once feedback has been gathered.
     const total = (good+neutral+bad)
+	
+	if (total === 0) {
+		return (<div><Header1 header="Statistics"/>No feedback given</div>)
+	}
 
 	return (
 		<div>
