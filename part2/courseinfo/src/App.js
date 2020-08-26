@@ -19,7 +19,7 @@ const Total = (props) => {
     const sumExercises = props.course.parts.reduce((totalExercisesSum, exercise)=>totalExercisesSum + exercise['exercises'], 0) //Don't forget that trailing 0, which looks like a getter with default value. Also, don't need to map out the variable first. Hard getting my head around this lambda function, but ok... yeah, I see it.
 
     return(
-		<p> Number of exercises {sumExercises} </p>
+		<p> <b>total of {sumExercises}  exercises</b> </p>
 	)
 }
 const Header = (props) => (
@@ -68,6 +68,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
