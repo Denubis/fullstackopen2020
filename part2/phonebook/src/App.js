@@ -22,7 +22,17 @@ const App = () => {
       const nameObject = {
         name: newName
       }
-      setPersons(persons.concat(nameObject))
+      console.log(persons)
+      console.log(nameObject)
+
+      // https://stackoverflow.com/a/30735595
+
+      if (persons.some((cur) => (newName === cur.name))){
+        alert(`${newName} is already added to phonebook`)
+      } else {
+        setPersons(persons.concat(nameObject))
+      }
+
       setNewName('')
   }
   return (
