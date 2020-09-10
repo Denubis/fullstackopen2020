@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
+import CountryDetails from './CountryDetails.js'
 
 const CountryResult = ({results, countryName}) => {
+  const [countryClick, setCountryClick] = useState('')
   const filterResults = results.filter((cur) => (cur.name.toLowerCase().includes(countryName.toLowerCase())))
+
   //https://stackoverflow.com/a/48145476
+
+  const handleSearchButtonChange = (event) => {
+    setCountryClick(event.target.value)
+    console.log("clickbutton", event.target.value)
+  }
 
   const Results = () => {
     console.log("results:", filterResults)
@@ -11,7 +19,12 @@ const CountryResult = ({results, countryName}) => {
 
   } else if (filterResults.length > 1) {
     const CountryName = ({result}) => {
-      return(<div>{result.name}</div>)
+      // https://stackoverflow.com/a/24534492
+      if (result.name === countryClick) {
+        return (<CountryDetails result={result} />)
+      } else {
+        return(<div>{result.name} <button value={result.name} onClick={handleSearchButtonChange}>Show</button></div>)
+      }
     }
     return ( filterResults.map(r => <CountryName key={r.name} result={r}/>))
 
@@ -19,18 +32,7 @@ const CountryResult = ({results, countryName}) => {
 
 
   } else if (filterResults.length === 1) {
-    const CountryDetails = ({result}) => (
-      <div>
-        <h2>{result.name}</h2>
-        <div>Capital: {result.capital}</div>
-        <div>Population: {result.population}</div>
-        <h3>languages</h3>
-        <ul>
-          {result.languages.map(language => (<li key={language.iso639_1}>{language.name}</li>))}
-        </ul>
-        <img src={result.flag} width="25%" alt={result.name} />
-      </div>
-    )
+
     return (<CountryDetails result={filterResults[0]}/>)
 
   } else {
