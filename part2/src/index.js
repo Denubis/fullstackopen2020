@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 import ReactDOM from "react-dom"
 import App from './App'
-import axios from 'axios'
+
 
 
 // const promise = axios.get('http://localhost:3001/notes')
@@ -16,20 +16,24 @@ import axios from 'axios'
 //
 // console.log(promise2)
 
-const notesURL = "http://localhost:3001/notes"
-
-axios
-  .get(notesURL)
-  .then(response => {
-    const notes = response.data
 
 
-    ReactDOM.render(
-      <App notes={notes} />,
-      document.getElementById('root')
-    )
 
-})
+ReactDOM.render(<App/>, document.getElementById('root'))
+
+//
+// axios
+//   .get(notesURL)
+//   .then(response => {
+//     const notes = response.data
+//
+//
+//     ReactDOM.render(
+//       <App notes={notes} />,
+//       document.getElementById('root')
+//     )
+//
+// })
 //
 // const notes = [
 //   {
