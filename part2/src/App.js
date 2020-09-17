@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Note from './components/Note'
-import axios from 'axios'
-
+// import axios from 'axios'
+import noteService from './services/notes'
 
 
 const App = () => {
@@ -10,16 +10,22 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
   const notesURL = "http://localhost:3001/notes"
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get(notesURL)
+  // const hook = () => {
+  //   console.log('effect')
+  //   axios
+  //     .get(notesURL)
+  //     .then(response => {
+  //       console.log('promise fuf')
+  //       setNotes(response.data)
+  //     })
+  // }
+  useEffect(() => {
+    noteService
+      .getAll()
       .then(response => {
-        console.log('promise fuf')
         setNotes(response.data)
       })
-  }
-  useEffect(hook, []) //empty array is run only on first render
+  }, []) //empty array is run only on first render
   console.log('render', notes.length, 'notes')
 
 
@@ -44,10 +50,44 @@ const App = () => {
         content: newNote,
         date: new Date().toISOString(),
         important: Math.random() < 0.5,
-        id: notes.length +1,
       }
-      setNotes(notes.concat(noteObject))
-      setNewNote('')
+
+      noteService
+        .create(noteObject)
+        .then(response => {
+          setNotes(notes.concat(response.data))
+          setNewNote('')
+        })
+      // axios
+      //   .post(notesURL, noteObject)
+      //   .then(response => {
+      //     console.log(response)
+      //     setNotes(notes.concat(response.data))
+      //     setNewNote('')
+      //   })
+
+      // setNotes(notes.concat(noteObject))
+
+    }
+    const toggleImportanceOf = (id) => {
+      console.log(`importance of ${id} needs to be toggled`)
+      const url = `${notesURL}/{$id}`
+      const note = notes.find(n => n.id === id)
+      const changedNote = { ...note, important: !note.important } // agh, this takes in the note object, then changes that one variable
+
+      noteService
+        .update(id, changedNote)
+        .then(response => {
+          setNotes(notes.map(note => note.id !== id? note : response.data))
+        })
+      // axios
+      //   .put(url, changedNote)
+      //   .then(response => {
+      //       setNotes(notes.map(note => note.id !== id ? note : response.data ))
+      //       //yeah, these ternary operators suck.
+      //       //
+      //       // for all notes, write the note back into the object, unless it's the specific one we're getting the response for, then use the REST data
+      //   })
     }
 
     return (<div>
@@ -58,7 +98,11 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notesToShow.map(note => <Note key={note.id} note={note}/>)}
+        {notesToShow.map(note => <Note
+          key={note.id}
+          note={note}
+          toggleImportance={() => toggleImportanceOf(note.id)}
+          />)}
 
       </ul>
       <form onSubmit={addNote}>
