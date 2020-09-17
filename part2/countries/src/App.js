@@ -5,6 +5,8 @@ import axios from 'axios'
 
 
 const App = () => {
+  //need to have REACT_APP_ at start of env variable. Odd.
+  console.log("weather", process.env.REACT_APP_WEATHER_API_KEY)
 
   const [countryName, setNewCountryName] = useState('')
   const [results, setResults] = useState([])
