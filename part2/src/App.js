@@ -2,13 +2,13 @@ import React, {useState, useEffect} from "react"
 import Note from './components/Note'
 // import axios from 'axios'
 import noteService from './services/notes'
-
-
+import './index.css'
+import Notification from './components/Notification'
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
-
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
   useEffect(() => {
     noteService
       .getAll()
@@ -60,7 +60,10 @@ const App = () => {
         .then(returnedNote => {
           setNotes(notes.map(note => note.id !== id? note : returnedNote))
         .catch(error => {
-          alert(`the note '${note.content}' was already deleted from the server`)
+          setErrorMessage(`the note '${note.content}' was already deleted from the server`)
+          setTimeout(()=>{
+            setErrorMessage(null)
+          }, 5000)
           setNotes(notes.filter(n=>n.id != id)) //urrrrgh, immutable deletes. Return an object with all ids except this one.
         })
         })
@@ -73,9 +76,23 @@ const App = () => {
       //       // for all notes, write the note back into the object, unless it's the specific one we're getting the response for, then use the REST data
       //   })
     }
+    const Footer = () => {
+      const footerStyle = {
+        color: 'green',
+        fontStyle: 'italic',
+        fontSize: 16
+      }
+      return (
+        <div style={footerStyle}>
+          <br />
+          <em>blah</em>
+        </div>
+      )
+    }
 
     return (<div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
@@ -94,6 +111,7 @@ const App = () => {
           onChange={handleNoteChange}/>
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>)
   }
 
