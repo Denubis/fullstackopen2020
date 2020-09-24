@@ -24,8 +24,9 @@ const App = () => {
     console.log(`called delete person ${id}`)
     personService
       .deletePerson(id)
-      .then(response => {
-        console.log(`delete response ${response}`)
+      .then(() => {
+        console.log(`delete worked`)
+
         //promise successful, don't care about returned stuff?
         setPersons(persons.filter(n=>n.id !== id))
       })

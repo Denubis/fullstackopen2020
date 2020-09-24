@@ -17,8 +17,22 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     }
     console.log(persons)
     console.log(nameObject) // https://stackoverflow.com/a/30735595  some is an iterator
-    if   (persons.some((cur) => (newName === cur.name))) {
-      alert(`${newName} is already added to phonebook`)
+    const targetPerson = persons.find(n => n.name === newName)
+    if (targetPerson) {
+      //alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
+
+        const changedNumber = { ...targetPerson, number: newNumber}
+        phoneService
+          .update(targetPerson.id, changedNumber)
+          .then(returnedPerson => {
+
+            setPersons(persons.map(personMap => targetPerson.id !== personMap.id ? personMap : returnedPerson )) //I don't like this...
+            setNewName('')
+            setNewNumber('')
+          })
+
+      }
     } else {
     //  setPersons(persons.concat(nameObject))
       phoneService
