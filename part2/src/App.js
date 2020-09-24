@@ -8,22 +8,12 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const notesURL = "http://localhost:3001/notes"
 
-  // const hook = () => {
-  //   console.log('effect')
-  //   axios
-  //     .get(notesURL)
-  //     .then(response => {
-  //       console.log('promise fuf')
-  //       setNotes(response.data)
-  //     })
-  // }
   useEffect(() => {
     noteService
       .getAll()
-      .then(response => {
-        setNotes(response.data)
+      .then(initialNotes => {
+          setNotes(initialNotes)
       })
   }, []) //empty array is run only on first render
   console.log('render', notes.length, 'notes')
@@ -54,31 +44,25 @@ const App = () => {
 
       noteService
         .create(noteObject)
-        .then(response => {
-          setNotes(notes.concat(response.data))
+        .then(returnedNote => {
+          setNotes(notes.concat(returnedNote))
           setNewNote('')
         })
-      // axios
-      //   .post(notesURL, noteObject)
-      //   .then(response => {
-      //     console.log(response)
-      //     setNotes(notes.concat(response.data))
-      //     setNewNote('')
-      //   })
-
-      // setNotes(notes.concat(noteObject))
 
     }
     const toggleImportanceOf = (id) => {
       console.log(`importance of ${id} needs to be toggled`)
-      const url = `${notesURL}/{$id}`
       const note = notes.find(n => n.id === id)
       const changedNote = { ...note, important: !note.important } // agh, this takes in the note object, then changes that one variable
 
       noteService
         .update(id, changedNote)
-        .then(response => {
-          setNotes(notes.map(note => note.id !== id? note : response.data))
+        .then(returnedNote => {
+          setNotes(notes.map(note => note.id !== id? note : returnedNote))
+        .catch(error => {
+          alert(`the note '${note.content}' was already deleted from the server`)
+          setNotes(notes.filter(n=>n.id != id)) //urrrrgh, immutable deletes. Return an object with all ids except this one.
+        })
         })
       // axios
       //   .put(url, changedNote)
