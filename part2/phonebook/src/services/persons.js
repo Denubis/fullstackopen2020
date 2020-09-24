@@ -9,4 +9,9 @@ const create = newObject => {
   const request = axios.post(baseUrl, newObject)
   return request.then(response => response.data)
 }
-export default {getAll, create} //getAll:getAll, but with magic JS6 stuff.
+
+const deletePerson = id => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+}
+export default {getAll, create, deletePerson} //getAll:getAll, but with magic JS6 stuff.

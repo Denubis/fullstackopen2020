@@ -19,13 +19,26 @@ const App = () => {
       })
   }, []) //run at start
 
+
+  const deletePerson = (id) => {
+    console.log(`called delete person ${id}`)
+    personService
+      .deletePerson(id)
+      .then(response => {
+        console.log(`delete response ${response}`)
+        //promise successful, don't care about returned stuff?
+        setPersons(persons.filter(n=>n.id !== id))
+      })
+  }
+
+
 return (<div>
   <h2>Phonebook</h2>
   <Filter filterName={filterName} setNewFilterName={setNewFilterName}/>
   <h2>Add a new</h2>
   <PersonForm persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber}/>
   <h2>Numbers</h2>
-  <Persons persons={persons} filterName={filterName}/>
+  <Persons persons={persons} deletePerson={deletePerson} filterName={filterName}/>
 
 
 </div>)

@@ -1,10 +1,20 @@
 import React from 'react'
 import Name from './Name.js'
 
-const NameList = ({filterPersons}) => {
+const NameList = ({filterPersons, deletePerson}) => {
+
+  const deletePersonConfirm = (id, name) => {
+    if (window.confirm(`Do you really want to delete ${name}?`)){
+      deletePerson(id)
+    }
+  }
 
   if (filterPersons.length > 0) {
-    return (filterPersons.map(person => <Name key={person.name} name={person}/>))
+    return (filterPersons.map(person =>
+      <Name
+        key={person.name}
+        deletePerson={() => deletePersonConfirm(person.id, person.name)}
+        name={person}/>))
   } else {
     return (<div>No people found</div>)
   }

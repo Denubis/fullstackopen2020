@@ -23,8 +23,8 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     //  setPersons(persons.concat(nameObject))
       phoneService
         .create(nameObject) //only send the new one, not the full 'db'
-        .then(returnedPhonebook => {
-          setPersons(persons.concat(nameObject))
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson)) //we need to attach returnedPerson, not nameObject for the ID
           setNewName('')
           setNewNumber('')
         })

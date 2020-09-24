@@ -2,7 +2,7 @@ import React from "react";
 import NameList from './NameList.js'
 
 
-const Persons = ({persons, filterName}) => {
+const Persons = ({persons, filterName, deletePerson}) => {
 
 
   const filterPersons = filterName
@@ -11,7 +11,7 @@ const Persons = ({persons, filterName}) => {
 
 
   return (
-    <NameList filterPersons={filterPersons}/>
+    <NameList filterPersons={filterPersons} deletePerson={deletePerson}/>
 
   )
 }
