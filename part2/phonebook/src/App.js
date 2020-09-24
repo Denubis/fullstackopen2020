@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import Filter from './components/Filter.js'
 import PersonForm from './components/PersonForm.js'
 import Persons from './components/Persons.js'
-import axios from 'axios'
+import personService from './services/persons.js'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,20 +10,14 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("") // We need a name change handler.
   const [filterName, setNewFilterName] = useState("")
 
-  const phonebookURL = "http://localhost:3001/persons"
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get(phonebookURL)
-      .then(response => {
-        console.log('promise fuf')
-        setPersons(response.data)
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initalPhonebook => {
+        setPersons(initalPhonebook)
       })
-  }
-  useEffect(hook, []) //empty array is run only on first render
-
-
+  }, []) //run at start
 
 return (<div>
   <h2>Phonebook</h2>

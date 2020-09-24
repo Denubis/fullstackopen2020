@@ -1,4 +1,5 @@
 import React from "react";
+import phoneService from '../services/persons.js'
 
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) =>{
 
@@ -19,10 +20,16 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
     if   (persons.some((cur) => (newName === cur.name))) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(nameObject))
+    //  setPersons(persons.concat(nameObject))
+      phoneService
+        .create(nameObject) //only send the new one, not the full 'db'
+        .then(returnedPhonebook => {
+          setPersons(persons.concat(nameObject))
+          setNewName('')
+          setNewNumber('')
+        })
     }
-    setNewName('')
-    setNewNumber('')
+
   }
 
 
