@@ -1,7 +1,7 @@
 import React from "react";
 import phoneService from '../services/persons.js'
 
-const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) =>{
+const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage}) =>{
 
 
   const handleNameChange = (event) => { setNewName(event.target.value)}
@@ -26,7 +26,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
         phoneService
           .update(targetPerson.id, changedNumber)
           .then(returnedPerson => {
-
+            setErrorMessage(`Person ${newName} updated with phone number '${newNumber}'`)
             setPersons(persons.map(personMap => targetPerson.id !== personMap.id ? personMap : returnedPerson )) //I don't like this...
             setNewName('')
             setNewNumber('')
@@ -38,6 +38,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
       phoneService
         .create(nameObject) //only send the new one, not the full 'db'
         .then(returnedPerson => {
+          setErrorMessage(`Person ${newName} added with phone number '${newNumber}'`)          
           setPersons(persons.concat(returnedPerson)) //we need to attach returnedPerson, not nameObject for the ID
           setNewName('')
           setNewNumber('')

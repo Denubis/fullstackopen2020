@@ -22,18 +22,8 @@
     },
     {
       "name": "a",
-      "number": "2",
+      "number": "3",
       "id": 5
-    },
-    {
-      "name": "b",
-      "number": "2",
-      "id": 6
-    },
-    {
-      "name": "c",
-      "number": "6",
-      "id": 7
     }
   ]
 }

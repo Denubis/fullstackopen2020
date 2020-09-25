@@ -4,8 +4,8 @@ import React from 'react'
 
 
 
-const Name = ({name, deletePerson}) => (
-  <div>{name.name} {name.number} <button onClick={deletePerson}>delete</button></div>
+const Name = ({name, deleteNamedPerson}) => (
+  <div>{name.name} {name.number} <button onClick={deleteNamedPerson}>delete</button></div>
 )
 
 export default Name;
