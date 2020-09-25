@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("") // We need a name change handler.
   const [filterName, setNewFilterName] = useState("")
   const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessageCSS, setErrorMessageCSS] = useState('success')
 
 
   useEffect(() => {
@@ -33,12 +34,20 @@ const App = () => {
         //promise successful, don't care about returned stuff?
         setPersons(persons.filter(n=>n.id !== id))
       })
+      .catch(error => {
+        setErrorMessageCSS('error')
+        setErrorMessage(`Person ${name} unable to be deleted, please refresh the page.`)
+        setPersons(persons.filter(n=>n.id !== id))
+
+      }
+
+      )
   }
 
 
 return (<div>
   <h2>Phonebook</h2>
-  <Notification message={errorMessage} cssClass={'success'} setErrorMessage={setErrorMessage} />
+  <Notification message={errorMessage} cssClass={errorMessageCSS} setErrorMessage={setErrorMessage} />
   <Filter filterName={filterName} setNewFilterName={setNewFilterName}/>
   <h2>Add a new</h2>
   <PersonForm
@@ -48,7 +57,9 @@ return (<div>
     setNewName={setNewName}
     newNumber={newNumber}
     setNewNumber={setNewNumber}
-    setErrorMessage={setErrorMessage}/>
+    setErrorMessage={setErrorMessage}
+    setErrorMessageCSS={setErrorMessageCSS}
+    />
   <h2>Numbers</h2>
   <Persons persons={persons} deletePerson={deletePerson} filterName={filterName}/>
 

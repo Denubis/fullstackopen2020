@@ -1,7 +1,7 @@
 import React from "react";
 import phoneService from '../services/persons.js'
 
-const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage}) =>{
+const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setErrorMessage, setErrorMessageCSS}) =>{
 
 
   const handleNameChange = (event) => { setNewName(event.target.value)}
@@ -26,10 +26,15 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
         phoneService
           .update(targetPerson.id, changedNumber)
           .then(returnedPerson => {
+            setErrorMessageCSS('success')
             setErrorMessage(`Person ${newName} updated with phone number '${newNumber}'`)
             setPersons(persons.map(personMap => targetPerson.id !== personMap.id ? personMap : returnedPerson )) //I don't like this...
             setNewName('')
             setNewNumber('')
+          }).catch(error => {
+            setErrorMessageCSS('error')
+            setErrorMessage(`Person ${newName} has already been removed from the server.`)
+            setPersons(persons.filter(n=>n.id !== targetPerson.id))
           })
 
       }
@@ -38,7 +43,8 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
       phoneService
         .create(nameObject) //only send the new one, not the full 'db'
         .then(returnedPerson => {
-          setErrorMessage(`Person ${newName} added with phone number '${newNumber}'`)          
+          setErrorMessageCSS('success')
+          setErrorMessage(`Person ${newName} added with phone number '${newNumber}'`)
           setPersons(persons.concat(returnedPerson)) //we need to attach returnedPerson, not nameObject for the ID
           setNewName('')
           setNewNumber('')
