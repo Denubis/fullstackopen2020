@@ -64,7 +64,7 @@ const App = () => {
           setTimeout(()=>{
             setErrorMessage(null)
           }, 5000)
-          setNotes(notes.filter(n=>n.id != id)) //urrrrgh, immutable deletes. Return an object with all ids except this one.
+          setNotes(notes.filter(n=>n.id !== id)) //urrrrgh, immutable deletes. Return an object with all ids except this one.
         })
         })
       // axios
